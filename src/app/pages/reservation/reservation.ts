@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Inject } from '@angular/core';
+import { BookingService } from '../../services/booking';
+import { RouterLink } from '@angular/router';
 
 
 interface CalendarDay{
@@ -11,13 +14,16 @@ interface CalendarDay{
 @Component({
   selector: 'app-reservation',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './reservation.html',
   styleUrl: './reservation.scss',
 })
 export class Reservation {
   readonly weekdays = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
   readonly today = this.startOfDay(new Date());
+
+  private readonly booking = inject(BookingService);
+  errorMessage = '';
 
   displayedMonth = new Date(
     this.today.getFullYear(),
@@ -34,11 +40,6 @@ export class Reservation {
   submitted = false;
 
     // Disponibilités fictives pour construire le frontend.
-  readonly weeklySlots: Record<number, string[]> = {
-    2: ['10:00', '14:00', '16:30'],
-    4: ['14:00', '16:30', '18:00'],
-    6: ['09:00', '10:30', '14:00'],
-  };
 
   get monthLabel(): string{
     return this.displayedMonth.toLocaleDateString('fr-CA',{
@@ -122,26 +123,29 @@ export class Reservation {
   }
   
   submitRequest(): void{
-    if(
-      !this.selectedDate || !this.availableTimes.includes(this.selectedTime) || !this.studentName.trim() || !this.studentEmail.trim()
-    ){
-      return;
-    }
+    this.errorMessage = '';
+    this.submitted = false;
 
-    // Connexion à ASP.NET dans une prochaine etape
-    this.submitted = true;
+
+    if(!this.selectedDate || !this.selectedTime) return;
+
+    try{
+      this.booking.requestSlot(
+        this.booking.dateKey(this.selectedDate),
+        this.selectedTime,
+        this.studentName,
+        this.studentEmail,
+      );
+      this.submitted = true;
+    }catch(error){
+      this.errorMessage = error instanceof Error
+      ? error.message
+      : 'Impossible de créer la demande.';
+    }
   }
 
   private getSlots(date: Date): string[]{
-    const slots = this.weeklySlots[date.getDay()] ?? [];
-
-    return slots.filter((time)=>{
-      const [hours,minutes] = time.split(':').map(Number);
-      const appointement = new Date(date);
-      appointement.setHours(hours,minutes,0,0);
-
-      return appointement.getTime() > Date.now();
-    });
+    return this.booking.availableSlots(this.booking.dateKey(date)).map(slot => slot.time);
   }
 
   private startOfDay(date: Date): Date{

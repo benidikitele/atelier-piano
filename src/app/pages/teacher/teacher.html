@@ -1,0 +1,154 @@
+<header class="admin-header">
+  <a routerLink="/" class="brand">Atelier Piano</a>
+  <a routerLink="/">Voir la réservation</a>
+</header>
+
+<main>
+  <div class="page-heading">
+    <span class="eyebrow">ESPACE PROFESSEUR</span>
+    <h1>Votre planning, simplement.</h1>
+    <p>{{ pendingCount() }} demande(s) en attente.</p>
+  </div>
+
+  <div class="demo">
+    Démonstration sans connexion : cet espace n’est pas encore sécurisé.
+    Les données disparaissent au rechargement et aucun courriel n’est envoyé.
+  </div>
+
+  <div class="admin-grid">
+    <section class="panel">
+      <h2>Ajouter une disponibilité</h2>
+
+      <form
+        #slotForm="ngForm"
+        (ngSubmit)="slotForm.valid && addSlot()"
+      >
+        <label for="date">Date du cours</label>
+        <input
+          id="date"
+          name="date"
+          type="date"
+          required
+          [min]="today"
+          [(ngModel)]="date"
+        />
+
+        <label for="time">Horaire</label>
+        <input
+          id="time"
+          name="time"
+          type="time"
+          required
+          [(ngModel)]="time"
+        />
+
+        <button
+          class="primary"
+          type="submit"
+          [disabled]="!slotForm.valid"
+        >
+          Ajouter le créneau
+        </button>
+      </form>
+
+      @if (message) {
+        <p class="feedback" role="status">{{ message }}</p>
+      }
+
+      @if (errorMessage) {
+        <p class="error" role="alert">{{ errorMessage }}</p>
+      }
+
+      <h2 class="list-heading">Créneaux proposés</h2>
+
+      <div class="slot-list">
+        @for (slot of slots(); track slot.id) {
+          <div class="slot-row">
+            <div>
+              <strong>{{ formatDate(slot.date) }}</strong>
+              <span>
+                {{ slot.time }}
+                @if (hasActiveRequest(slot.id)) {
+                  · Demande active
+                }
+              </span>
+            </div>
+
+            <button
+              type="button"
+              class="delete"
+              [disabled]="hasActiveRequest(slot.id)"
+              [attr.aria-label]="
+                'Supprimer le créneau du ' +
+                formatDate(slot.date) + ' à ' + slot.time
+              "
+              (click)="removeSlot(slot.id)"
+            >
+              Supprimer
+            </button>
+          </div>
+        } @empty {
+          <p class="empty">Aucun créneau proposé.</p>
+        }
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Demandes de cours</h2>
+
+      @for (request of requests(); track request.id) {
+        <article class="request-card">
+          <div class="request-heading">
+            <h3>{{ request.name }}</h3>
+
+            <span
+              class="badge"
+              [class.confirmed]="request.status === 'confirmed'"
+              [class.rejected]="request.status === 'rejected'"
+            >
+              {{ statusLabel(request.status) }}
+            </span>
+          </div>
+
+          <a [href]="'mailto:' + request.email">
+            {{ request.email }}
+          </a>
+
+          <p>
+            {{ formatDate(request.date) }}
+            <strong>à {{ request.time }}</strong>
+          </p>
+
+          @if (request.status === 'pending') {
+            <div class="actions">
+              <button
+                type="button"
+                class="primary"
+                (click)="confirm(request.id)"
+              >
+                Confirmer
+              </button>
+
+              <button
+                type="button"
+                class="secondary"
+                (click)="reject(request.id)"
+              >
+                Refuser
+              </button>
+            </div>
+          }
+        </article>
+      } @empty {
+        <div class="empty-state">
+          <h3>Aucune demande pour le moment</h3>
+          <p>
+            Envoyez une demande depuis la page de réservation
+            pour tester le fonctionnement.
+          </p>
+          <a routerLink="/">Ouvrir la réservation</a>
+        </div>
+      }
+    </section>
+  </div>
+</main>

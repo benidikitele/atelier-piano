@@ -4,7 +4,7 @@
     Atelier<span>Piano</span>
   </a>
 
-  <span class="header-note">Un cours. Un moment pour vous.</span>
+  <a class="header-note" routerLink="/teacher">Espace professeur</a>
 </header>
 
 <main class="page">
@@ -49,10 +49,19 @@
       </p>
     </div>
 
-    <div class="demo-banner">
-      Version de démonstration : les horaires sont fictifs
-      et aucune demande n’est envoyée.
-    </div>
+    @if(submitted){
+        <div class="success-message" role="status">
+            <strong>Demande ajoutée à la demo</strong>
+            <span>
+                {{ selectedDateLabel }} à {{ selectedTime }}.
+                Retrouvez-la dans l'espace professeur.
+            </span>
+        </div>
+    }
+
+    @if(errorMessage){
+        <p role="alert">{{ errorMessage }}</p>
+    }
 
     <div class="booking-grid">
       <section class="panel calendar-panel" aria-label="Choisir une date">
