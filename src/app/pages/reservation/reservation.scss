@@ -1,0 +1,534 @@
+:host {
+  --blue: #1558f5;
+  --navy: #102047;
+  --muted: #62708a;
+  --border: #e2e8f2;
+
+  display: block;
+  min-height: 100vh;
+  color: var(--navy);
+}
+
+.site-header {
+  min-height: 84px;
+  padding: 20px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: 800;
+
+  > span:last-child {
+    color: var(--blue);
+  }
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-right: 6px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: white;
+}
+
+.header-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.page {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 5% 64px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  align-items: start;
+  gap: 36px;
+}
+
+.teacher-card {
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.teacher-cover {
+  min-height: 190px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #102047;
+  color: white;
+
+  > span:last-child {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+  }
+}
+
+.cover-note {
+  color: #92b4ff;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.teacher-details {
+  padding: 26px;
+
+  h2 {
+    margin: 12px 0;
+    font-size: 1.5rem;
+  }
+
+  > p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+
+  > span:first-child {
+    color: var(--blue);
+    font-size: 1.4rem;
+  }
+}
+
+.teacher-footer {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.booking-section {
+  min-width: 0;
+}
+
+.intro {
+  margin-bottom: 24px;
+
+  h1 {
+    max-width: 720px;
+    margin: 14px 0;
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  p {
+    max-width: 620px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+}
+
+.demo-banner {
+  margin-bottom: 22px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #eaf1ff;
+  color: #345084;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.panel {
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: white;
+}
+
+.panel-label,
+.form-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.step {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  background: #eaf1ff;
+  border-radius: 50%;
+  color: var(--blue);
+  font-size: 0.875rem;
+}
+
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 28px 0 22px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+  }
+}
+
+.month-controls {
+  display: flex;
+  gap: 6px;
+
+  button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    color: var(--navy);
+    font-size: 1.5rem;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px 3px;
+}
+
+.weekday {
+  padding-bottom: 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.day {
+  justify-self: center;
+  width: 100%;
+  max-width: 42px;
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #9ba5b7;
+  font-size: 0.95rem;
+
+  &.outside {
+    color: #c9cfda;
+  }
+
+  &.available {
+    background: #eaf1ff;
+    color: #174bae;
+    font-weight: 600;
+
+    &:hover {
+      background: #d9e6ff;
+    }
+  }
+
+  &.selected {
+    background: var(--blue);
+    color: white;
+
+    &:hover {
+      background: #1048cd;
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 28px;
+  font-size: 0.875rem;
+  color: var(--muted);
+
+  > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.available-dot {
+  background: #c9ddff;
+}
+
+.selected-dot {
+  background: var(--blue);
+}
+
+.calendar-help {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.selected-date {
+  margin: 24px 0 18px;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  text-transform: capitalize;
+}
+
+.field-caption {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.time-slot {
+  flex: 1;
+  min-width: 72px;
+  padding: 12px 8px;
+  border: 1px solid #b9ceff;
+  border-radius: 9px;
+  background: white;
+  color: var(--blue);
+  font-weight: 600;
+
+  &:hover {
+    background: #eaf1ff;
+  }
+
+  &.active {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: white;
+  }
+}
+
+.empty-selection {
+  padding: 28px 4px;
+  text-align: center;
+
+  > span {
+    color: var(--blue);
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+form {
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.form-heading {
+  margin-bottom: 22px;
+}
+
+label {
+  display: block;
+  margin: 18px 0 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d5deec;
+  border-radius: 9px;
+  background: white;
+  color: var(--navy);
+  font-size: 1rem;
+
+  &::placeholder {
+    color: #8894a8;
+  }
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 15px;
+  border: none;
+  border-radius: 11px;
+  background: var(--blue);
+  color: white;
+  font-weight: 700;
+
+  &:hover:not(:disabled) {
+    background: #1048cd;
+  }
+
+  &:disabled {
+    background: #dfe6f3;
+    color: #78869e;
+    cursor: not-allowed;
+  }
+}
+
+.confirmation-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #eaf1ff;
+  color: #204381;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.site-footer {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button,
+input,
+a {
+  &:focus-visible {
+    outline: 3px solid #83aaff;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .page {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .site-header {
+    min-height: 72px;
+    padding: 16px 20px;
+  }
+
+  .header-note {
+    display: none;
+  }
+
+  .page {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px 16px 40px;
+  }
+
+  .teacher-cover {
+    min-height: 110px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cover-note {
+    font-size: 3rem;
+  }
+
+  .teacher-details {
+    padding: 22px;
+  }
+
+  .teacher-footer {
+    display: none;
+  }
+
+  .intro h1 {
+    font-size: 2.1rem;
+  }
+
+  .panel {
+    padding: 22px 18px;
+  }
+}

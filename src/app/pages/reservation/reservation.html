@@ -1,1 +1,230 @@
-<p>reservation works!</p>
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Atelier Piano, accueil">
+    <span class="brand-mark" aria-hidden="true">♫</span>
+    Atelier<span>Piano</span>
+  </a>
+
+  <span class="header-note">Un cours. Un moment pour vous.</span>
+</header>
+
+<main class="page">
+  <aside class="teacher-card">
+    <div class="teacher-cover">
+      <span class="cover-note" aria-hidden="true">♫</span>
+      <span>ATELIER PIANO</span>
+    </div>
+
+    <div class="teacher-details">
+      <span class="eyebrow">LE PLAISIR D’APPRENDRE</span>
+      <h2>Cours de piano</h2>
+
+      <p>
+        Un accompagnement à votre rythme,
+        pour faire vos premiers pas ou continuer à progresser.
+      </p>
+
+      <div class="detail-row">
+        <span aria-hidden="true">◎</span>
+        <span>En présentiel</span>
+      </div>
+
+      <div class="detail-row">
+        <span aria-hidden="true">♫</span>
+        <span>Débutants bienvenus</span>
+      </div>
+
+      <div class="teacher-footer">
+        Choisissez une date disponible pour préparer votre prochain cours.
+      </div>
+    </div>
+  </aside>
+
+  <section class="booking-section" aria-labelledby="booking-title">
+    <div class="intro">
+      <span class="eyebrow">VOTRE PROCHAIN COURS</span>
+      <h1 id="booking-title">Réservez un moment pour jouer.</h1>
+      <p>
+        Choisissez une date, puis un horaire.
+        Le professeur confirmera ensuite votre demande.
+      </p>
+    </div>
+
+    <div class="demo-banner">
+      Version de démonstration : les horaires sont fictifs
+      et aucune demande n’est envoyée.
+    </div>
+
+    <div class="booking-grid">
+      <section class="panel calendar-panel" aria-label="Choisir une date">
+        <div class="panel-label">
+          <span class="step">1</span>
+          Choisissez une date
+        </div>
+
+        <div class="calendar-heading">
+          <h2 aria-live="polite">{{ monthLabel }}</h2>
+
+          <div class="month-controls">
+            <button
+              type="button"
+              aria-label="Mois précédent"
+              [disabled]="!canGoPrevious"
+              (click)="changeMonth(-1)"
+            >
+              ‹
+            </button>
+
+            <button
+              type="button"
+              aria-label="Mois suivant"
+              (click)="changeMonth(1)"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+
+        <div class="calendar-grid">
+          @for (weekday of weekdays; track weekday) {
+            <span class="weekday">{{ weekday }}</span>
+          }
+
+          @for (day of calendarDays; track day.date.getTime()) {
+            <button
+              type="button"
+              class="day"
+              [class.outside]="!day.currentMonth"
+              [class.available]="day.available"
+              [class.selected]="isSelected(day.date)"
+              [disabled]="!day.available"
+              [attr.aria-pressed]="isSelected(day.date)"
+              [attr.aria-label]="
+                day.date.toLocaleDateString('fr-CA', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric'
+                }) + (day.available ? ', disponible' : ', indisponible')
+              "
+              (click)="selectDate(day)"
+            >
+              {{ day.date.getDate() }}
+            </button>
+          }
+        </div>
+
+        <div class="calendar-legend">
+          <span><i class="dot available-dot"></i> Disponible</span>
+          <span><i class="dot selected-dot"></i> Votre choix</span>
+        </div>
+
+        <p class="calendar-help">
+          Les dates bleutées proposent des horaires disponibles.
+        </p>
+      </section>
+
+      <section class="panel request-panel" aria-label="Demande de cours">
+        <div class="panel-label">
+          <span class="step">2</span>
+          Votre créneau
+        </div>
+
+        @if (selectedDate) {
+          <h2 class="selected-date">{{ selectedDateLabel }}</h2>
+
+          <p class="field-caption">Horaires disponibles</p>
+
+          <div class="time-slots">
+            @for (time of availableTimes; track time) {
+              <button
+                type="button"
+                class="time-slot"
+                [class.active]="selectedTime === time"
+                [attr.aria-pressed]="selectedTime === time"
+                (click)="selectTime(time)"
+              >
+                {{ time }}
+              </button>
+            } @empty {
+              <p>Aucun horaire disponible. Choisissez une autre date.</p>
+            }
+          </div>
+        } @else {
+          <div class="empty-selection">
+            <span aria-hidden="true">▦</span>
+            <h2>Quel jour vous convient ?</h2>
+            <p>Sélectionnez une date bleutée dans le calendrier.</p>
+          </div>
+        }
+
+        <form
+          #bookingForm="ngForm"
+          (ngSubmit)="bookingForm.valid && submitRequest()"
+        >
+          <div class="form-heading">
+            <span class="step">3</span>
+            Vos coordonnées
+          </div>
+
+          <label for="student-name">Votre nom</label>
+          <input
+            id="student-name"
+            name="studentName"
+            type="text"
+            autocomplete="name"
+            placeholder="Prénom et nom"
+            required
+            maxlength="100"
+            [(ngModel)]="studentName"
+            (ngModelChange)="submitted = false"
+          />
+
+          <label for="student-email">Votre courriel</label>
+          <input
+            id="student-email"
+            name="studentEmail"
+            type="email"
+            autocomplete="email"
+            placeholder="vous@exemple.com"
+            required
+            email
+            maxlength="254"
+            [(ngModel)]="studentEmail"
+            (ngModelChange)="submitted = false"
+          />
+
+          <button
+            class="submit-button"
+            type="submit"
+            [disabled]="
+              !selectedDate ||
+              !selectedTime ||
+              !studentName.trim() ||
+              !bookingForm.valid
+            "
+          >
+            Demander ce créneau
+          </button>
+
+          <p class="confirmation-note">
+            Votre réservation sera définitive après confirmation du professeur.
+          </p>
+        </form>
+
+        @if (submitted) {
+          <div class="success-message" role="status">
+            <strong>Simulation réussie, {{ studentName }} !</strong>
+            <span>
+              Vous avez choisi le {{ selectedDateLabel }} à {{ selectedTime }}.
+              Aucune demande n’a encore été enregistrée ou envoyée.
+            </span>
+          </div>
+        }
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  Atelier Piano · Un moment pour apprendre et progresser.
+</footer>

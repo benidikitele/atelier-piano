@@ -107,7 +107,7 @@ export class Reservation {
   selectDate(day:CalendarDay): void{
     if(!day.available) return;
 
-    this.selectedDate = null;
+    this.selectedDate = day.date;
     this.selectedTime = '';
     this.submitted = false;
   }
