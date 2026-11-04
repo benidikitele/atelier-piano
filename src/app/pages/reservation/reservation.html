@@ -4,7 +4,11 @@
     Atelier<span>Piano</span>
   </a>
 
-  <a class="header-note" routerLink="/teacher">Espace professeur</a>
+  
+  <a class="header-note" routerLink="/teacher">
+    <mat-icon aria-hidden="true">person</mat-icon>
+    
+  </a>
 </header>
 
 <main class="page">
@@ -160,7 +164,7 @@
           </div>
         } @else {
           <div class="empty-selection">
-            <span aria-hidden="true">▦</span>
+            <span aria-hidden="true"></span>
             <h2>Quel jour vous convient ?</h2>
             <p>Sélectionnez une date bleutée dans le calendrier.</p>
           </div>

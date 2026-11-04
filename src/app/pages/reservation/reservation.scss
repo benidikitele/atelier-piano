@@ -69,18 +69,18 @@
 
 .teacher-cover {
   min-height: 190px;
-  padding: 28px;
+  padding: 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #102047;
-  color: white;
+  align-items: flex-end;
 
-  > span:last-child {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-  }
+  background: 
+    linear-gradient(to top, rgba(10, 20, 45, 0.8), transparent 65%),
+    url('/piano.jpg') center/cover no-repeat;
+
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+
 }
 
 .cover-note {

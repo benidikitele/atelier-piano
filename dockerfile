@@ -12,9 +12,9 @@ RUN npm run build -- --configuration production
 #Étape 2 : Servir les fichiers compilés
 FROM nginx:stable-alpine
 
-COPY nginx.config /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist/dist/atelier-piano/browser usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist/atelier-piano/browser /usr/share/nginx/html
 
 EXPOSE 80
 
-CMD [ "nginx", "-g", "deamon off;" ]
+CMD [ "nginx", "-g", "daemon off;" ]
